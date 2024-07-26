@@ -39,7 +39,7 @@ public class DestroyEnemyScript : MonoBehaviour
     void OnTriggerEnter(Collider obj)
     {
         
-        if (obj.gameObject.CompareTag("Enemy") && !GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>().isNight)
+        if (obj.gameObject.CompareTag("Enemy") && !GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>().isNight && canDealDamageLastFrame)
         {
             Debug.Log("hit enemy");
             obj.gameObject.GetComponent<EnemyAI>().isDead = true;
