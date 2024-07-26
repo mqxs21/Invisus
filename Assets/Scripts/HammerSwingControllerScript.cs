@@ -17,7 +17,7 @@ public class HammerSwingControllerScript : MonoBehaviour
     void Update()
     {
         //Debug.Log(Get("isSwinging"));
-        if (Input.GetMouseButtonDown(0) && !Get("isSwinging"))
+        if (Input.GetMouseButtonDown(0) && !Get("isSwinging") && !GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>().isNight)
         {
             Set("isSwinging", true);
             Set("canDealDamage", false);

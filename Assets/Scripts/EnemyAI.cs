@@ -78,7 +78,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void speedChanger(){
-        agent.speed = UnityEngine.Random.Range(7,12);
+        agent.speed = UnityEngine.Random.Range(9,14);
     }
     
 }
