@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
 
     public bool canBeHit;
 
+    public bool isDead = false;
     public Renderer rend;
     public bool isVisible;
     public Transform player;
@@ -35,6 +36,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (isDead && !dayNight.GetComponent<dayNightControllerScript>().isNight)
+        {
+            Destroy(gameObject);
+        }
         if (dayNight.GetComponent<dayNightControllerScript>().isNight)
         {
             canBeHit = false;
