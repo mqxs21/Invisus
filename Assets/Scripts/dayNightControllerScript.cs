@@ -42,7 +42,7 @@ public class dayNightControllerScript : MonoBehaviour
                 directionalLight.enabled = false;
 
             if (vignette != null)
-                vignette.intensity.value = 0.9f;
+                vignette.intensity.value = 0.7f;
         }
         else
         {
