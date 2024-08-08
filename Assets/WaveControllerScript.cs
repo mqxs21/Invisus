@@ -6,10 +6,11 @@ public class WaveControllerScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI waveNoText;
     bool shouldUpdate = true;
-    
+    public int waveNumberPublic;
     void Start()
     {
         waveNoText.text = "0";
+        waveNumberPublic = 0;
        dayNightControllerScript dayNightController = GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>();
         if (dayNightController != null && dayNightController.isNight)
         {
@@ -30,10 +31,10 @@ public class WaveControllerScript : MonoBehaviour
         dayNightControllerScript dayNightController = GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>();
         if (shouldUpdate && dayNightController.isNight)
         {
-            Debug.Log("update text");
             shouldUpdate = false;
             int waveNo = int.Parse(waveNoText.text);
             waveNo++;
+            waveNumberPublic = waveNo;
             waveNoText.text = waveNo.ToString();
             GetComponent<Animator>().SetBool("showTextWave",true);
             StartCoroutine(waitTextFalse());
@@ -42,6 +43,7 @@ public class WaveControllerScript : MonoBehaviour
         {
             shouldUpdate = true;
         }
+
     }
     private IEnumerator waitTextFalse(){
         yield return new WaitForSeconds(1f);
