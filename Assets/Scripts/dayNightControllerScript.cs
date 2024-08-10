@@ -9,6 +9,11 @@ public class dayNightControllerScript : MonoBehaviour
     private Volume globalVolume;
     private Vignette vignette;
 
+    private HungerControllerScript hungerController;
+    [SerializeField] Color initialColor = Color.black;
+    [SerializeField] Color targetColor = Color.red;
+
+
     void Start()
     {
         // Cache references to avoid calling Find every frame
@@ -27,6 +32,7 @@ public class dayNightControllerScript : MonoBehaviour
 
     void Update()
     {
+        UpdateVignetteColor();
         Camera.main.backgroundColor = isNight ? Color.black : Color.grey;
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -54,5 +60,16 @@ public class dayNightControllerScript : MonoBehaviour
             if (vignette != null)
                 vignette.intensity.value = 0.272f;
         }
+    }
+    void UpdateVignetteColor(){
+        if (vignette == null || hungerController == null)
+            return;
+
+        float hungerPercent = hungerController.currentHunger / hungerController.maxHunger;
+
+        // If hunger decreases, transition to red; if it increases, transition back quickly
+        Color targetVignetteColor = Color.Lerp(initialColor, targetColor, 1 - hungerPercent);
+        vignette.color.value = targetVignetteColor;
+
     }
 }
