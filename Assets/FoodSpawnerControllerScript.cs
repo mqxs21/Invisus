@@ -21,7 +21,7 @@ public class FoodSpawnerControllerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!dayNightController.isNight && shouldUpdateDay)
+        if (dayNightController.isNight && shouldUpdateDay)
         {
             //spawn food
             for (int i = 0; i < waveControl.waveNumberPublic; i++)
@@ -39,7 +39,7 @@ public class FoodSpawnerControllerScript : MonoBehaviour
             
             shouldUpdateDay = false;
         }
-        if (dayNightController.isNight)
+        if (!dayNightController.isNight)
         {
             shouldUpdateDay = true;
         }

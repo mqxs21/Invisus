@@ -14,13 +14,20 @@ public class EnemySpawnerScript : MonoBehaviour
     private bool spawnSomething = false;
     void Start()
     {
-        waveNumberPublic = GameObject.Find("WaveController").GetComponent<WaveControllerScript>().waveNumberPublic;
+        if (GameObject.Find("WaveController") != null)
+        {
+             waveNumberPublic = GameObject.Find("WaveController").GetComponent<WaveControllerScript>().waveNumberPublic;
+        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        waveNumberPublic = GameObject.Find("WaveController").GetComponent<WaveControllerScript>().waveNumberPublic;
+        if (GameObject.Find("WaveController") != null)
+        {
+             waveNumberPublic = GameObject.Find("WaveController").GetComponent<WaveControllerScript>().waveNumberPublic;
+        }
         dayNightControllerScript dayNightController = GameObject.Find("DayNightController").GetComponent<dayNightControllerScript>();
         if (shouldUpdate && dayNightController.isNight)
         {
