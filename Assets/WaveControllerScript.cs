@@ -35,9 +35,20 @@ public class WaveControllerScript : MonoBehaviour
             int waveNo = int.Parse(waveNoText.text);
             waveNo++;
             waveNumberPublic = waveNo;
-            waveNoText.text = waveNo.ToString();
+            if (waveNumberPublic == 1)
+            {
+                waveNoText.text = waveNo.ToString();
+            }else{
+                waveNoText.text = waveNo.ToString();
+            }
+            if (waveNumberPublic==1)
+            {
+                
+            }else{
             GetComponent<Animator>().SetBool("showTextWave",true);
             StartCoroutine(waitTextFalse());
+            }
+            
         }
         if (!dayNightController.isNight)
         {
@@ -46,7 +57,13 @@ public class WaveControllerScript : MonoBehaviour
 
     }
     private IEnumerator waitTextFalse(){
-        yield return new WaitForSeconds(1f);
+        if (waveNumberPublic == 1)
+        {
+            yield return new WaitForSeconds(3f);
+        }else{
+            yield return new WaitForSeconds(1f);
+        }
+        
         GetComponent<Animator>().SetBool("showTextWave",false);
     }
     

@@ -13,7 +13,7 @@ public class FoodScript : MonoBehaviour
         if (obj.gameObject.CompareTag("Player"))
         {
             HungerControl.IncreaseHunger(foodHealAmount);
-            Destroy(this.gameObject,0.1f);
+            Destroy(this.gameObject.transform.parent.gameObject,0.1f);
         }
     }
 }

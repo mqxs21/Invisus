@@ -10,6 +10,13 @@ public class FoodSpawnerControllerScript : MonoBehaviour
     [SerializeField] private float spawnFoodYLoc;
     [SerializeField] private GameObject foodPreFab;
 
+    [SerializeField] private float randomLocationXHigherBound = -90;
+    [SerializeField] private float randomLocationXLowerBound = -115;
+
+    [SerializeField] private float randomLocationZHigherBound = 0;
+    [SerializeField] private float randomLocationZLowerBound = -13;
+
+
     private WaveControllerScript waveControl;
     void Start()
     {
@@ -29,8 +36,8 @@ public class FoodSpawnerControllerScript : MonoBehaviour
                 float randOnetoThree = UnityEngine.Random.Range(1,3);
                 if (randOnetoThree >=1 && randOnetoThree <=2)
                 {
-                    float randomX = UnityEngine.Random.Range(-92,-105);
-                float randomZ = UnityEngine.Random.Range(-13,0);
+                float randomX = UnityEngine.Random.Range(randomLocationXHigherBound,randomLocationXLowerBound);
+                float randomZ = UnityEngine.Random.Range(randomLocationZLowerBound,randomLocationZHigherBound);
                 Vector3 spawnFoodLoc = new Vector3(randomX,spawnFoodYLoc,randomZ);
                 Instantiate(foodPreFab,spawnFoodLoc,Quaternion.identity);
                 }
@@ -42,6 +49,16 @@ public class FoodSpawnerControllerScript : MonoBehaviour
         if (!dayNightController.isNight)
         {
             shouldUpdateDay = true;
+        }
+        
+    }
+    public void spawnFood(float amountOfFood){
+        for (int j = 0; j < amountOfFood; j++)
+        {
+            float randomX = UnityEngine.Random.Range(randomLocationXHigherBound,randomLocationXLowerBound);
+            float randomZ = UnityEngine.Random.Range(randomLocationZLowerBound,randomLocationZHigherBound);
+            Vector3 spawnFoodLoc = new Vector3(randomX,spawnFoodYLoc,randomZ);
+            Instantiate(foodPreFab,spawnFoodLoc,Quaternion.identity);
         }
     }
 }

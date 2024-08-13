@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -72,13 +72,19 @@ public class EnemyAI : MonoBehaviour
         }
 
         if(Vector3.Distance(transform.position, player.position)<1.75 && dayNight.GetComponent<dayNightControllerScript>().isNight && !rend.isVisible){
-            Debug.Log("kill");
-            SceneManager.LoadScene("DeathScreen");
+            StartCoroutine(killGracePeriod(0.5f));
         }
     }
 
     private void speedChanger(){
         agent.speed = UnityEngine.Random.Range(9,14);
     }
-    
+    private IEnumerator killGracePeriod(float seconds){
+        yield return new WaitForSeconds(seconds);
+        if (Vector3.Distance(transform.position, player.position)<1.75 && dayNight.GetComponent<dayNightControllerScript>().isNight && !rend.isVisible)
+        {
+            Debug.Log("kill");
+            SceneManager.LoadScene("DeathScreen");
+        }
+    }
 }

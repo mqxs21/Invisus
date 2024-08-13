@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class HungerControllerScript : MonoBehaviour
 {
@@ -18,16 +19,22 @@ public class HungerControllerScript : MonoBehaviour
     
     private float maxXSize = 403.65f;
 
+    public bool death = false;
+
+    public UnityEvent onGameOver;
+    
     void Start()
     {
         currentHungerDecreaseRate = startingHungerDecreaseRate;
         currentHunger = maxHunger;  // Initialize hunger to maximum
         StartCoroutine(DecreaseHunger()); // Start the coroutine to decrease hunger
         maxXSize = 0.4f;
+        death = false;
     }
 
     void Update()
     {
+        
         UpdateHungerText();
         UpdateHungerBar(currentHunger,maxHunger);  // Update the UI text each frame
         if (resetExpoGrowth)
@@ -35,6 +42,11 @@ public class HungerControllerScript : MonoBehaviour
             currentHungerDecreaseRate = startingHungerDecreaseRate;
             resetExpoGrowth = false;
             growth = 0;
+        }
+        if (currentHunger<=0)
+        {
+            onGameOver.Invoke();
+            death = true;
         }
     }
 
@@ -44,7 +56,7 @@ public class HungerControllerScript : MonoBehaviour
         {
             yield return new WaitForSeconds(dicreaseRateSeconds);  // Wait for 1 second
             currentHunger -= currentHungerDecreaseRate;  // Decrease hunger
-            currentHungerDecreaseRate += 0.15f;
+            currentHungerDecreaseRate += 0.0015f;
             if (currentHunger < 0)
             {
                 currentHunger = 0;  // Ensure hunger doesn't go below 0
@@ -70,12 +82,19 @@ public class HungerControllerScript : MonoBehaviour
     }
     
     // Call this method to update the hunger bar
-      public void UpdateHungerBar(float currentHunger, float maxHunger)
+     public void UpdateHungerBar(float currentHunger, float maxHunger)
+{
+    // Calculate the target hunger percentage (0 to 1)
+    float targetHungerPercent = currentHunger / maxHunger;
+    Vector3 currentScale = hungerUIInside.localScale;
+    if (targetHungerPercent <= 0.3)
     {
-        // Calculate the current hunger percentage (0 to 1)
-        float hungerPercent = currentHunger / maxHunger;
-
-        // Adjust the width of HealthUIInside based on the percentage
-        hungerUIInside.localScale = new Vector3(hungerPercent, 1f, 1f);
+        GameObject.Find("FoodSpawnerController").GetComponent<FoodSpawnerControllerScript>().spawnFood(2f);
     }
+   
+    float lerpSpeed = 5f; 
+    float newScaleX = Mathf.Lerp(currentScale.x, targetHungerPercent, Time.deltaTime * lerpSpeed);
+    hungerUIInside.localScale = new Vector3(newScaleX, 1f, 1f);
+}
+
 }
